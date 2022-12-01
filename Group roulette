@@ -1,0 +1,166 @@
+#include <iostream>
+#include <iomanip>
+#include <ctime>
+#include <cstdlib>
+using namespace std;
+
+
+
+
+double initial_bank, current_bank, won{ 0 }, lost{ 0 };
+double betting_amount;
+char response, quit{ 'N' };
+int number;
+int const top_number{ 36 }, min_number{ 0 };
+int landed;
+
+
+int main()
+{
+	std::cout << "Hello you have chose to play roulette" << std::endl;
+	std::cout << "How much money do you have ?" << std::endl;
+	std::cin >> initial_bank;
+	current_bank = initial_bank;
+
+	std::cout << "You have chosen to play with $" << initial_bank << std::endl;
+
+	current_bank = initial_bank;
+	while (current_bank > 0 && quit =='N')
+	{
+		std::cout << "You currently have $" << current_bank << std::endl;
+		std::cout << "\nHow much money do you want to bet ?" << std::endl;
+		std::cin >> betting_amount;
+		current_bank = current_bank - betting_amount;
+		std::cout << "You have chosen to bet $" << betting_amount << std::endl;
+		std::cout << "\nWhat would you like to bet on Number(N), Odd(O), Even(E), Bottom half(B), Top half(T)? " << std::endl;
+		std::cin >> response;
+		response = std::toupper(response);
+		switch (response)
+		case'N':
+		{
+			std::cout << "You have chosen to bet on Numbers.\n" << std::endl;
+			std::cout << "Which number would you want to bet on" << std::endl;
+			std::cin >> number;
+			srand(time(NULL));
+			landed = rand() % (top_number - min_number + 1) + min_number;
+			if (number == landed)
+			{
+				std::cout <<"\nThe ball landed on " << landed <<std::endl;
+				std::cout << "You won $ " << betting_amount*35 << std::endl;
+				won = won + (betting_amount * 35);
+				
+			}
+			else
+			{
+				std::cout << "The ball landed on " << landed << std::endl;
+				std::cout << "Sorry you lost $ " << betting_amount << std::endl;
+				lost = lost - betting_amount;
+			}
+		break;
+		case'O':
+		{
+			srand(time(NULL));
+			landed = rand() % (top_number - min_number + 1) + min_number;
+			std::cout << "you have chosen to bet on Odds" << std::endl;
+			if (landed%2==1)
+			{
+				std::cout << "\nIt landed on " << landed << std::endl;
+				std::cout << "You won $ " << betting_amount << std::endl;
+				won = won + betting_amount;
+			}
+			else
+			{
+				std::cout << "It landed on " << landed << std::endl;
+				std::cout << "Sorry you lost $ " << betting_amount << std::endl;
+				lost = lost - betting_amount;
+
+			}
+			
+		}
+		break;
+		case'E':
+		{
+			srand(time(NULL));
+			landed = rand() % (top_number - min_number + 1) + min_number;
+			std::cout << "You have chosen even" << std::endl;
+			if (landed % 2 == 0)
+			{
+				std::cout << "It landed on " << landed << std::endl;
+				std::cout << "You won $ " << betting_amount << std::endl;
+				won = won + betting_amount;
+			}
+			else
+			{
+				std::cout << "It landed on " << landed << std::endl;
+				std::cout << "Sorry you lost $ " << betting_amount << std::endl;
+				lost = lost - betting_amount;
+			}
+		}
+		break;
+		case'T':
+		{
+			srand(time(NULL));
+			landed = rand() % (top_number - min_number + 1) + min_number;
+			std::cout << "You have chosen top half" << std::endl;
+			if (landed > 18)
+			{
+				std::cout << "It landed on " << landed << std::endl;
+				std::cout << "You won $ " << betting_amount << std::endl;
+				won = won + betting_amount;
+			}
+			else
+			{
+				std::cout << "It landed on " << landed << std::endl;
+				std::cout << "Sorry you lost $ " << betting_amount << std::endl;
+				lost = lost - betting_amount;
+			}
+		}
+		break;
+		case'B':
+		{
+			srand(time(NULL));
+			landed = rand() % (top_number - min_number + 1) + min_number;
+			std::cout << "You have chosen bottom half" << std::endl;
+			if (landed <= 18)
+			{
+				std::cout << "It landed on " << landed << std::endl;
+				std::cout << "You won $ " << betting_amount << std::endl;
+				won = won + betting_amount;
+			}
+			else
+			{
+				std::cout << "It landed on " << landed << std::endl;
+				std::cout << "Sorry you lost $ " << betting_amount << std::endl;
+				lost = lost - betting_amount;
+			}
+		}
+		default:
+		{
+			std::cout << "That was an incorrect input." << std::endl;
+		}
+
+		}
+		std::cout << "Are you finished playing, Yes(Y) or No(N)" << std::endl;
+		std::cin >> quit;
+		quit = std::toupper(quit);
+	}
+	std::cout << "\nYou have decided to quit playing." << std::endl;
+	std::cout << "You have left the roulette with $" << current_bank << std::endl;
+	if (won == lost)
+	{
+		std::cout << "In total you broke even" << std::endl;
+
+	}
+	else
+	{
+		if (won > (lost*-1.0))
+		{
+			std::cout << "In total you won $" << won << std::endl;
+		}
+		else
+		{
+			std::cout << "In total you lost $" << lost << std::endl;
+		}
+	}
+	return 0;
+}
