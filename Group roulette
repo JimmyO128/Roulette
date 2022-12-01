@@ -1,6 +1,6 @@
 #include <iostream>
 #include <iomanip>
-#include <ctime>
+#include <ctime> 
 #include <cstdlib>
 using namespace std;
 
@@ -17,149 +17,152 @@ int landed;
 
 int main()
 {
-	std::cout << "Hello you have chose to play roulette" << std::endl;
+	
+	std::cout << "Hello you have chose to play roulette" << std::endl; //Welcoming the user into the roulette program
 	std::cout << "How much money do you have ?" << std::endl;
 	std::cin >> initial_bank;
-	current_bank = initial_bank;
-
+	current_bank = initial_bank;    //Setting up the starting amount and the users current bank
+	
 	std::cout << "You have chosen to play with $" << initial_bank << std::endl;
 
 	current_bank = initial_bank;
-	while (current_bank > 0 && quit =='N')
+	while (current_bank > 0 && quit =='N') // referenced c++ better explained
 	{
 		std::cout << "You currently have $" << current_bank << std::endl;
 		std::cout << "\nHow much money do you want to bet ?" << std::endl;
 		std::cin >> betting_amount;
-		current_bank = current_bank - betting_amount;
+		current_bank = current_bank - betting_amount; //This is to track the remainder of the user betting their money
 		std::cout << "You have chosen to bet $" << betting_amount << std::endl;
+
+		//Giving the user the options for how they want to play the game
 		std::cout << "\nWhat would you like to bet on Number(N), Odd(O), Even(E), Bottom half(B), Top half(T)? " << std::endl;
 		std::cin >> response;
-		response = std::toupper(response);
+		response = std::toupper(response); //making the user response into a capital letter in case they use a lowercase
 		switch (response)
-		case'N':
+		case'N': // case for choosing a number
 		{
 			std::cout << "You have chosen to bet on Numbers.\n" << std::endl;
 			std::cout << "Which number would you want to bet on" << std::endl;
 			std::cin >> number;
 			srand(time(NULL));
-			landed = rand() % (top_number - min_number + 1) + min_number;
-			if (number == landed)
+			landed = rand() % (top_number - min_number + 1) + min_number; //I had a lot of problems with the random so I referenced c++better explained
+			if (number == landed) // if the user chosen number matches the landed number
 			{
 				std::cout <<"\nThe ball landed on " << landed <<std::endl;
-				std::cout << "You won $ " << betting_amount*35 << std::endl;
-				won = won + (betting_amount * 35);
+				std::cout << "You won $ " << betting_amount*35 << std::endl; // The user wins 35 fold there bet 
+				won = won + (betting_amount * 35); //This is for later to track how much the user is winning
 				
 			}
-			else
+			else // The users chosen number is not the landed number
 			{
 				std::cout << "The ball landed on " << landed << std::endl;
 				std::cout << "Sorry you lost $ " << betting_amount << std::endl;
-				lost = lost - betting_amount;
+				lost = lost - betting_amount; // to track how much the user is losing
 			}
 		break;
-		case'O':
+		case'O': // case for the odd numbers
 		{
 			srand(time(NULL));
 			landed = rand() % (top_number - min_number + 1) + min_number;
 			std::cout << "you have chosen to bet on Odds" << std::endl;
-			if (landed%2==1)
+			if (landed%2==1) // this is so that if there is a remainder then this number is odd
 			{
 				std::cout << "\nIt landed on " << landed << std::endl;
-				std::cout << "You won $ " << betting_amount << std::endl;
+				std::cout << "You won $ " << betting_amount*2.0 << std::endl; // the user wins the amount they put in so its double the betting amount
 				won = won + betting_amount;
 			}
-			else
+			else // if there is not a remainder then the number is even
 			{
-				std::cout << "It landed on " << landed << std::endl;
+				std::cout << "It landed on " << landed << std::endl; 
 				std::cout << "Sorry you lost $ " << betting_amount << std::endl;
-				lost = lost - betting_amount;
+				lost = lost - betting_amount; // tracking the losing amount
 
 			}
 			
 		}
 		break;
-		case'E':
+		case'E': // case for the even
 		{
 			srand(time(NULL));
 			landed = rand() % (top_number - min_number + 1) + min_number;
 			std::cout << "You have chosen even" << std::endl;
-			if (landed % 2 == 0)
+			if (landed % 2 == 0) // if there is no remainder than the user wins
 			{
 				std::cout << "It landed on " << landed << std::endl;
-				std::cout << "You won $ " << betting_amount << std::endl;
+				std::cout << "You won $ " << betting_amount*2.0 << std::endl; // the user wins the amount they put in so its double the betting amount
 				won = won + betting_amount;
 			}
-			else
+			else // if there was a remainder than the user loses
 			{
 				std::cout << "It landed on " << landed << std::endl;
 				std::cout << "Sorry you lost $ " << betting_amount << std::endl;
-				lost = lost - betting_amount;
+				lost = lost - betting_amount; // tracking the losing amount
 			}
 		}
 		break;
-		case'T':
+		case'T': // case for if the user chose the top half
 		{
 			srand(time(NULL));
 			landed = rand() % (top_number - min_number + 1) + min_number;
 			std::cout << "You have chosen top half" << std::endl;
-			if (landed > 18)
+			if (landed > 18) // there are 36 numbers so the top half is above 18 
 			{
 				std::cout << "It landed on " << landed << std::endl;
-				std::cout << "You won $ " << betting_amount << std::endl;
-				won = won + betting_amount;
+				std::cout << "You won $ " << betting_amount*2.0 << std::endl; // the user wins the amount they put in so its double the betting amount
+				won = won + betting_amount; //tracking the winning amount
 			}
 			else
 			{
 				std::cout << "It landed on " << landed << std::endl;
 				std::cout << "Sorry you lost $ " << betting_amount << std::endl;
-				lost = lost - betting_amount;
+				lost = lost - betting_amount; //tracking the lsoing amount
 			}
 		}
 		break;
-		case'B':
+		case'B': // case for if the user chooses bottom half
 		{
 			srand(time(NULL));
 			landed = rand() % (top_number - min_number + 1) + min_number;
-			std::cout << "You have chosen bottom half" << std::endl;
-			if (landed <= 18)
+			std::cout << "You have chosen bottom half" << std::endl; 
+			if (landed <= 18) // if the landed number is less than or = to then user wins
 			{
-				std::cout << "It landed on " << landed << std::endl;
-				std::cout << "You won $ " << betting_amount << std::endl;
-				won = won + betting_amount;
+				std::cout << "It landed on " << landed << std::endl; 
+				std::cout << "You won $ " << betting_amount*2.0 << std::endl;
+				won = won + betting_amount*2.0; //Tracking the winning
 			}
-			else
+			else// if the landed is above the 18
 			{
 				std::cout << "It landed on " << landed << std::endl;
 				std::cout << "Sorry you lost $ " << betting_amount << std::endl;
-				lost = lost - betting_amount;
+				lost = lost - betting_amount; // tracking the losing
 			}
 		}
 		default:
 		{
-			std::cout << "That was an incorrect input." << std::endl;
+			std::cout << "That was an incorrect input." << std::endl; // the default case if the user inputted an invalid choice
 		}
 
 		}
-		std::cout << "Are you finished playing, Yes(Y) or No(N)" << std::endl;
+		std::cout << "Are you finished playing, Yes(Y) or No(N)" << std::endl; //if the user wants to continue playing
 		std::cin >> quit;
 		quit = std::toupper(quit);
 	}
 	std::cout << "\nYou have decided to quit playing." << std::endl;
 	std::cout << "You have left the roulette with $" << current_bank << std::endl;
-	if (won == lost)
+	if (won == lost) // In the situation the user broke even making it a good initial if / else statement
 	{
 		std::cout << "In total you broke even" << std::endl;
 
 	}
 	else
 	{
-		if (won > (lost*-1.0))
+		if (won > (lost*-1.0)) //making the lost into a positive to compare
 		{
-			std::cout << "In total you won $" << won << std::endl;
+			std::cout << "In total you won $" << won << std::endl; // printed amount user lost
 		}
 		else
 		{
-			std::cout << "In total you lost $" << lost << std::endl;
+			std::cout << "In total you lost $" << lost << std::endl; //printed amount user lost
 		}
 	}
 	return 0;
